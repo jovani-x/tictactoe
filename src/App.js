@@ -49,7 +49,8 @@ class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null)
+          squares: Array(9).fill(null),
+          order: Array(9).fill(null),
         }
       ],
       stepNumber: 0,
@@ -61,14 +62,19 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    const order = current.order.slice();
+
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
+    order[history.length] = i;
+
     this.setState({
       history: history.concat([
         {
-          squares: squares
+          squares: squares,
+          order: order,
         }
       ]),
       stepNumber: history.length,
@@ -77,7 +83,10 @@ class Game extends React.Component {
   }
 
   jumpTo(step) {
+    const history = this.state.history.slice(0, step + 1);
+
     this.setState({
+      history: history,
       stepNumber: step,
       xIsNext: (step % 2) === 0
     });
@@ -87,10 +96,14 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    const order = current.order;
 
-    const moves = history.map((step, move) => {
+    const moves = history.map((step, ix) => {
+      const move = ix;
+      const boardPosition = calculateBoardPosition( step.order[move] );
+
       const desc = move ?
-        'Go to move #' + move :
+        `Go to move # ${move} (col: ${boardPosition.col}, row: ${boardPosition.row}, square#: ${order[move]})` : 
         'Go to game start';
       return (
         <li key={move}>
@@ -141,6 +154,12 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+function calculateBoardPosition(i) {
+  const col = (i % 3) + 1;
+  const row = (i - (i % 3) ) / 3 + 1;
+  return {col: col, row: row};
 }
 
 export default hot(module)(Game);
