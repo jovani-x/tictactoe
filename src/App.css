@@ -49,3 +49,11 @@ body {
     margin-left: 20px;
   }
   
+  .moves li {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  .moves .active button {
+    font-weight: 700;
+  }
+  

@@ -106,7 +106,7 @@ class Game extends React.Component {
         `Go to move # ${move} (col: ${boardPosition.col}, row: ${boardPosition.row}, square#: ${order[move]})` : 
         'Go to game start';
       return (
-        <li key={move}>
+        <li key={move} className={(step === current) ? 'active' : ''}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
@@ -129,7 +129,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ol className="moves">{moves}</ol>
         </div>
       </div>
     );
