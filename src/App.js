@@ -3,8 +3,10 @@ import {hot} from "react-hot-loader";
 import "./App.css";
 
 function Square(props) {
+  const extraClassName = props.isWin ? 'win-square' : '';
+
   return (
-    <button className="square" onClick={props.onClick}>
+    <button className={`square ${extraClassName}`} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -15,6 +17,7 @@ class Board extends React.Component {
     return (
       <Square
         key={i}
+        isWin={this.props.winners && this.props.winners.includes(i)}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
       />
@@ -110,7 +113,7 @@ class Game extends React.Component {
 
     let status;
     if (winner) {
-      status = "Winner: " + winner;
+      status = "Winner: " + winner.winner;
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
@@ -120,6 +123,7 @@ class Game extends React.Component {
         <div className="game-board">
           <Board
             squares={current.squares}
+            winners={winner && winner.combination}
             onClick={i => this.handleClick(i)}
           />
         </div>
@@ -146,7 +150,10 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return {
+        winner: squares[a],
+        combination: lines[i],
+      };
     }
   }
   return null;
