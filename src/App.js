@@ -2,6 +2,9 @@ import React, { Component} from "react";
 import {hot} from "react-hot-loader";
 import "./App.css";
 
+const ABC_SORT = 'abc';
+const CBA_SORT = 'cba';
+
 function Square(props) {
   const extraClassName = props.isWin ? 'win-square' : '';
 
@@ -9,6 +12,12 @@ function Square(props) {
     <button className={`square ${extraClassName}`} onClick={props.onClick}>
       {props.value}
     </button>
+  );
+}
+
+function SortButton(props) {
+  return (
+  <button className="sort-button" onClick={() => props.onClick()}>Sort {props.sortDirection}</button>
   );
 }
   
@@ -52,6 +61,7 @@ class Game extends React.Component {
           order: Array(9).fill(null),
         }
       ],
+      sortDirection: ABC_SORT,
       stepNumber: 0,
       xIsNext: true
     };
@@ -81,6 +91,15 @@ class Game extends React.Component {
     });
   }
 
+  handleChangeDirection() {
+    const curDirection = this.state.sortDirection;
+    const newDirection = (curDirection === ABC_SORT) ? CBA_SORT : ABC_SORT;
+
+    this.setState({
+      sortDirection: newDirection,
+    });
+  }
+
   jumpTo(step) {
     const history = this.state.history.slice(0, step + 1);
 
@@ -97,8 +116,12 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
     const order = current.order;
 
+    const direction = this.state.sortDirection;
+    const testHistory = (direction === CBA_SORT) ? history.slice(0).reverse() : history;
+
     const moves = history.map((step, ix) => {
-      const move = ix;
+      //const move = ix;
+      const move = (direction === CBA_SORT) ? testHistory.length - 1 - ix : ix;
       const boardPosition = calculateBoardPosition( step.order[move] );
 
       const desc = move ?
@@ -114,6 +137,8 @@ class Game extends React.Component {
     let status;
     if (winner) {
       status = "Winner: " + winner.winner;
+    } else if (this.state.stepNumber === 9) {
+      status = 'The result being a draw';
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
@@ -130,6 +155,7 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <ol className="moves">{moves}</ol>
+          <SortButton sortDirection={this.state.sortDirection} onClick={() => this.handleChangeDirection()}></SortButton>
         </div>
       </div>
     );
