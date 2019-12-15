@@ -119,8 +119,7 @@ class Game extends React.Component {
     const direction = this.state.sortDirection;
     const testHistory = (direction === CBA_SORT) ? history.slice(0).reverse() : history;
 
-    const moves = history.map((step, ix) => {
-      //const move = ix;
+    const moves = testHistory.map((step, ix) => {
       const move = (direction === CBA_SORT) ? testHistory.length - 1 - ix : ix;
       const boardPosition = calculateBoardPosition( step.order[move] );
 
