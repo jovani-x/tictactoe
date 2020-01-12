@@ -1,9 +1,9 @@
 import React, { Component} from "react";
 import {hot} from "react-hot-loader";
-import "./App.css";
+import "./App.scss";
 
-const ABC_SORT = 'abc';
-const CBA_SORT = 'cba';
+const ABC_SORT = 'asc';
+const CBA_SORT = 'desc';
 
 function Square(props) {
   const extraClassName = props.isWin ? 'win-square' : '';
@@ -17,7 +17,7 @@ function Square(props) {
 
 function SortButton(props) {
   return (
-  <button className="sort-button" onClick={() => props.onClick()}>Sort {props.sortDirection}</button>
+  <button className="sort-button" onClick={() => props.onClick()}>Sort actions by {props.sortDirection}</button>
   );
 }
   
@@ -124,7 +124,7 @@ class Game extends React.Component {
       const boardPosition = calculateBoardPosition( step.order[move] );
 
       const desc = move ?
-        `Go to move # ${move} (col: ${boardPosition.col}, row: ${boardPosition.row}, square#: ${order[move]})` : 
+        `Go to move # ${move} (col: ${boardPosition.col}, row: ${boardPosition.row}, square#: ${order[move] + 1})` : 
         'Go to game start';
       return (
         <li key={move} className={(step === current) ? 'active' : ''}>
@@ -152,7 +152,7 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
+          <div className="game-status">{status}</div>
           <ol className="moves">{moves}</ol>
           <SortButton sortDirection={this.state.sortDirection} onClick={() => this.handleChangeDirection()}></SortButton>
         </div>
