@@ -4,9 +4,20 @@
   "description": "tictactoe game (react tutorial)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production"
+  },
+  "jest": {
+    "forceCoverageMatch": [
+      "**/*.test.js"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    }
   },
   "author": "",
   "license": "ISC",
@@ -17,14 +28,16 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.2",
     "css-loader": "^1.0.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "node-sass": "^4.9.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
     "webpack": "^4.19.1",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.8",
-    "sass-loader": "^7.1.0",
-    "node-sass": "^4.9.3"
+    "webpack-dev-server": "^3.1.8"
   }
 }

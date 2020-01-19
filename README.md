@@ -2,7 +2,7 @@
 The one of popular games in the World!
 
 ## Start
-$ npm init
+$ npm init 
 $ npm start
 
 ## About
@@ -17,3 +17,4 @@ Added:
 * When no one wins, display a message about the result being a draw.
 * Added sass-loader (replace css with scss)
 * Changed component styles
+* Unit-tests (part)
