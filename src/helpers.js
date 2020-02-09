@@ -27,4 +27,18 @@ export function calculateWinner(squares) {
     return null;
 }
 
-export default { calculateBoardPosition, calculateWinner };
+export function getStatus(state) {
+    const history = state.history;
+    const current = history[state.stepNumber];
+    const winner = calculateWinner(current.squares);
+
+    if (winner) {
+        return "Winner: " + winner.winner;
+    } else if (state.stepNumber === 9) {
+        return "The result being a draw";
+    } else {
+        return "Next player: " + (state.xIsNext ? "X" : "O");
+    }
+}
+
+export default { calculateBoardPosition, calculateWinner, getStatus };

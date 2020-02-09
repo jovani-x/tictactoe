@@ -166,7 +166,7 @@ ol, ul {
   text-transform: uppercase;
   background: none;
   overflow: hidden;
-  border: 1px solid $black;
+  border: 0;
   background: $black;
   color: $white;
   cursor: pointer;
@@ -185,7 +185,7 @@ ol, ul {
     width: 200%;
     margin-left: -100%;
     transition: all 0.4s linear;
-    @include gradient-x($black, lighten($black, 50%));
+    @include gradient-x($black, lighten($black, 50%), 50%, 100%);
   }
 
   &:hover {

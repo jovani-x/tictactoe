@@ -2,8 +2,11 @@
 The one of popular games in the World!
 
 ## Start
-$ npm init 
+$ npm init  
 $ npm start
+
+## Test
+$ npm test
 
 ## About
 It's based on the [React Tutorial Project](https://reactjs.org/tutorial/tutorial.html) and created to learn React.

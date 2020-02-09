@@ -1,12 +1,12 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import {hot} from "react-hot-loader";
-import {calculateBoardPosition, calculateWinner} from "./helpers";
+import {calculateBoardPosition, calculateWinner, getStatus} from "./helpers";
 import "./App.scss";
 
-const ABC_SORT = 'asc';
-const CBA_SORT = 'desc';
+export const ABC_SORT = 'asc';
+export const CBA_SORT = 'desc';
 
-function Square(props) {
+export function Square(props) {
   const extraClassName = props.isWin ? 'win-square' : '';
 
   return (
@@ -16,7 +16,13 @@ function Square(props) {
   );
 }
 
-function SortButton(props) {
+export function GameStatus(props) {
+  return (
+    <div className="game-status">{props.status}</div>
+  );
+}
+
+export function SortButton(props) {
   return (
     <button className="sort-button" onClick={() => props.onClick()}>Sort actions by {props.sortDirection}</button>
   );
@@ -58,8 +64,8 @@ class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null),
-          order: Array(9).fill(null),
+          squares: Array(10).fill(null),
+          order: Array(10).fill(null),
         }
       ],
       sortDirection: ABC_SORT,
@@ -134,14 +140,7 @@ class Game extends React.Component {
       );
     });
 
-    let status;
-    if (winner) {
-      status = "Winner: " + winner.winner;
-    } else if (this.state.stepNumber === 9) {
-      status = 'The result being a draw';
-    } else {
-      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
-    }
+    const status = getStatus(this.state);
 
     return (
       <div className="game">
@@ -153,7 +152,7 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div className="game-status">{status}</div>
+          <GameStatus status={status} />
           <ol className="moves">{moves}</ol>
           <SortButton sortDirection={this.state.sortDirection} onClick={() => this.handleChangeDirection()}></SortButton>
         </div>
