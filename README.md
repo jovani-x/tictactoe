@@ -20,4 +20,4 @@ Added:
 * When no one wins, display a message about the result being a draw.
 * Added sass-loader (replace css with scss)
 * Changed component styles
-* Unit-tests (part)
+* Unit-tests

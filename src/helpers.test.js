@@ -1,4 +1,4 @@
-import {calculateBoardPosition, calculateWinner, getStatus} from "./helpers";
+import { calculateBoardPosition, calculateWinner, getStatus } from "./helpers";
 
 describe('calc current cell (0-8)', () => {
   test('should be position 0', () => {

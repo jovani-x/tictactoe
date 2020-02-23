@@ -1,61 +1,14 @@
-import React, { Component } from "react";
-import {hot} from "react-hot-loader";
-import {calculateBoardPosition, calculateWinner, getStatus} from "./helpers";
+import React from "react";
+import { hot } from "react-hot-loader";
+import { calculateWinner, getStatus, ABC_SORT, CBA_SORT } from "./helpers";
+import { MovesList, SortButton } from "./MovesList";
+import { Board } from "./Board";
 import "./App.scss";
-
-export const ABC_SORT = 'asc';
-export const CBA_SORT = 'desc';
-
-export function Square(props) {
-  const extraClassName = props.isWin ? 'win-square' : '';
-
-  return (
-    <button className={`square ${extraClassName}`} onClick={props.onClick}>
-      {props.value}
-    </button>
-  );
-}
 
 export function GameStatus(props) {
   return (
     <div className="game-status">{props.status}</div>
   );
-}
-
-export function SortButton(props) {
-  return (
-    <button className="sort-button" onClick={() => props.onClick()}>Sort actions by {props.sortDirection}</button>
-  );
-}
-  
-class Board extends React.Component {
-  renderSquare(i) {
-    return (
-      <Square
-        key={i}
-        isWin={this.props.winners && this.props.winners.includes(i)}
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-      />
-    );
-  }
-
-  render() {
-    const rows = [];
-    for (let i = 0; i < 3; i++) {
-      let tmpRow = [];
-      for (let j = 0; j < 3; j++) {
-        tmpRow.push( this.renderSquare(i * 3 + j) );
-      }
-      rows.push(<div className="board-row" key={i}>{tmpRow}</div>);
-    }
-
-    return (
-      <div>
-        {rows}
-      </div>
-    );
-  }
 }
   
 class Game extends React.Component {
@@ -121,25 +74,6 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-    const order = current.order;
-
-    const direction = this.state.sortDirection;
-    const testHistory = (direction === CBA_SORT) ? history.slice(0).reverse() : history;
-
-    const moves = testHistory.map((step, ix) => {
-      const move = (direction === CBA_SORT) ? testHistory.length - 1 - ix : ix;
-      const boardPosition = calculateBoardPosition( step.order[move] );
-
-      const desc = move ?
-        `Go to move # ${move} (col: ${boardPosition.col}, row: ${boardPosition.row}, square#: ${order[move] + 1})` : 
-        'Go to game start';
-      return (
-        <li key={move} className={(step === current) ? 'active' : ''}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
-        </li>
-      );
-    });
-
     const status = getStatus(this.state);
 
     return (
@@ -153,8 +87,16 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <GameStatus status={status} />
-          <ol className="moves">{moves}</ol>
-          <SortButton sortDirection={this.state.sortDirection} onClick={() => this.handleChangeDirection()}></SortButton>
+          <MovesList 
+            history={this.state.history} 
+            sortDirection={this.state.sortDirection} 
+            stepNumber={this.state.stepNumber} 
+            jumpTo={k => this.jumpTo(k)} 
+          />
+          <SortButton 
+            sortDirection={this.state.sortDirection} 
+            onClick={() => this.handleChangeDirection()}
+          ></SortButton>
         </div>
       </div>
     );
