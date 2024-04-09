@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production && cp public/index.html dist/index.html",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
