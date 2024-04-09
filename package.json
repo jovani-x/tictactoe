@@ -1,4 +1,5 @@
 {
+  "homepage": "https://jovani-x.github.io/tictactoe/",
   "name": "tictactoe",
   "version": "1.0.0",
   "description": "tictactoe game (react tutorial)",
@@ -6,7 +7,9 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "jest": {
     "setupFilesAfterEnv": [
@@ -33,6 +36,7 @@
     "css-loader": "^1.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "gh-pages": "^6.1.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "react": "^16.5.2",
