@@ -39,7 +39,8 @@ module.exports = {
 		filename: "bundle.js"
 	},
 	devServer: {
-		static: path.join(__dirname, "public/"),
+		// static: path.join(__dirname, "public/"),
+		static: path.join(__dirname, "dist/"),
 		port: 3001,
 		devMiddleware: {
 			publicPath: "http://localhost:3001/dist/"
